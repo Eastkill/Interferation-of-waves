@@ -105,17 +105,21 @@ function refresh_list()
     ul.innerHTML="";  
     waves.forEach(function(wave,i)
     {
+        var div = document.createElement("div")
         var li = document.createElement("li");
         var button = document.createElement("button");
+        div.className = "list-item";
         button.type = "button";
         button.innerHTML = "Usuń element";
+        button.className = "button is-warning is-light is-outlined";
         button.onclick= function () {
             waves.splice(i,1);
             refresh_list();
         };
         li.appendChild(document.createTextNode("Amplituda: "+wave.A +" | Faza: "+ wave.f +" | Długość fali: "+ wave.l +" | Okres: "+ wave.T));
         li.appendChild(button);
-        ul.appendChild(li);
+        div.appendChild(li);
+        ul.appendChild(div);
         A_max+=parseFloat(wave.A);
     });
 

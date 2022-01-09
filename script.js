@@ -26,7 +26,7 @@ function main()
     value_generate();
     
                   for(let i = 0; i < depth; i++){
-                      line_drawing(i);
+                     line_drawing(i);
                   }
 }
 function set_time()
@@ -113,7 +113,7 @@ function refresh_list()
             waves.splice(i,1);
             refresh_list();
         };
-        li.appendChild(document.createTextNode("Amplituda: "+wave.A +" Faza: "+ wave.f +" Długość fali: "+ wave.l +" Okres: "+ wave.T));
+        li.appendChild(document.createTextNode("Amplituda: "+wave.A +" | Faza: "+ wave.f +" | Długość fali: "+ wave.l +" | Okres: "+ wave.T));
         li.appendChild(button);
         ul.appendChild(li);
         A_max+=parseFloat(wave.A);
@@ -130,6 +130,10 @@ function value_generate()
     ctx.fillStyle = "#000000";
     ctx.fillText(A_max.toFixed(2),0,10);
     ctx.fillText(-A_max.toFixed(2),0,canvas.height);
+    ctx.moveTo(0,canvas.height/2);
+    ctx.lineTo(canvas.width,canvas.height/2);
+    ctx.fillText(0,0,canvas.height/2);
+    ctx.stroke();
     waves.forEach(wave=>
     {
         ctx.beginPath();
@@ -142,5 +146,6 @@ function value_generate()
         ctx.lineTo(canvas.width,(wave.A/A_max)*canvas.height/2+canvas.height/2);
         ctx.stroke();
     });
+
 }
 

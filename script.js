@@ -1,4 +1,5 @@
-setInterval(main, 50);
+
+setInterval(main, 17);
 class Wave {
   constructor(T,l,f,A,rgb) {
     this.T = T;
@@ -10,7 +11,7 @@ class Wave {
 }
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
-
+var time = Date.now();
 var depth = 1000;
 var z = canvas.width/depth;//kwant współrzędnej z
 var id=0;
@@ -22,11 +23,40 @@ function main()
 {
     set_time();
     begin();
-    style_generate();
+    value_generate();
     
                   for(let i = 0; i < depth; i++){
                       line_drawing(i);
                   }
+}
+function set_time()
+{
+    t=(Date.now() - time)/1000; 
+    document.getElementById('time').innerHTML = "Czas: " + t.toFixed(1);
+}
+function begin()
+{
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = "#000000";
+    ctx.fillStyle="#ECE2D7"
+    ctx.fillRect(0,0,canvas.width, canvas.height);
+    ctx.strokeRect(0,0,canvas.width, canvas.height);
+    
+}
+function line_drawing(i)
+{
+    var sum=0;
+    var sum_=0;
+    waves.forEach(wave =>{
+        sum+=calculate_y(wave.T,wave.l,wave.f,wave.A,i);
+        sum_ +=calculate_y(wave.T,wave.l,wave.f,wave.A,i+1);
+        if(document.getElementById("checker").checked==true)
+            {
+        ctx.strokeStyle = wave.rgb;
+        draw(wave.T,wave.l,wave.f,wave.A,wave.rgb,i);
+            }
+    });
+    draw_summ(i,sum,sum_);
 }
 function calculate_y(T,l,f,A,i)
 {
@@ -46,10 +76,14 @@ function draw(T,l,f,A,RGB,i)
         ctx.stroke();
   }
 }
-function set_time()
+function draw_summ(i, sum, sum_)
 {
-    t+=0.05; 
-    document.getElementById('time').innerHTML = "Czas: " + t.toFixed(1);
+    ctx.strokeStyle="#000000";
+    ctx.beginPath();
+    ctx.lineWidth=2;
+    ctx.moveTo(z*i,sum + (canvas.height/2));
+    ctx.lineTo(z*(i+1),sum_ + (canvas.height/2));
+    ctx.stroke(); 
 }
 function Add_to_list()
 {
@@ -91,31 +125,7 @@ function update_value(value,id)
 {
   document.getElementById(id).innerHTML=value;  
 }
-function begin()
-{
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.strokeStyle = "#000000";
-    ctx.fillStyle="#ECE2D7"
-    ctx.fillRect(0,0,canvas.width, canvas.height);
-    ctx.strokeRect(0,0,canvas.width, canvas.height);
-    
-}
-function line_drawing(i)
-{
-    var sum=0;
-    var nextsum=0;
-    waves.forEach(wave =>{
-        sum+=calculate_y(wave.T,wave.l,wave.f,wave.A,i);
-        nextsum +=calculate_y(wave.T,wave.l,wave.f,wave.A,i+1);
-        if(document.getElementById("checker").checked==true)
-            {
-        ctx.strokeStyle = wave.rgb;
-        draw(wave.T,wave.l,wave.f,wave.A,wave.rgb,i);
-            }
-    });
-    draw_summ(i,sum,nextsum);
-}
-function style_generate()
+function value_generate()
 {
     ctx.fillStyle = "#000000";
     ctx.fillText(A_max.toFixed(2),0,10);
@@ -133,12 +143,4 @@ function style_generate()
         ctx.stroke();
     });
 }
-function draw_summ(i, sum, nextsum)
-{
-    ctx.strokeStyle="#000000";
-    ctx.beginPath();
-    ctx.lineWidth=2;
-    ctx.moveTo(z*(i+1),sum + (canvas.height/2));
-    ctx.lineTo(z*(i+1),nextsum + (canvas.height/2));
-    ctx.stroke(); 
-}
+

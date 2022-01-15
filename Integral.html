@@ -12,7 +12,6 @@
                 <a class="navbar-item has-text-centered" href="Lissajous.html">Lissajous Curve</a>
             </div>
         </nav>   
-                                <h1>Not Working yet</h1>
         <div class="columns">
             <div class="column is-three-fifths" style="margin:auto;">
                 <canvas id="canvas" width=600, height=600></canvas>
@@ -24,40 +23,34 @@
                     <div class="box">
 
                         <p>Granica dolna</p>
-                        <input id="min"type="range" min="-10" max="10" step="0.5" onchange="update_value(this.value,'minv');draw_line()">  <label id="minv" for="min">0</label>
+                        <input id="min"type="range" min="-10" max="10" step="0.5" onchange="update_value(this.value,'minv');begin();draw_line();Draw_function(document.getElementById('f').value);estimate()">  <label id="minv" for="min">0</label>
 
                         <p>Granica Górna</p>
-                        <input id="max"type="range" min="-10" max="10" step="0.5"   onchange="update_value(this.value,'maxv');draw_line()">  <label id="maxv" for="max">0</label>
+                        <input id="max"type="range" min="-10" max="10" step="0.5"   onchange="update_value(this.value,'maxv');begin();draw_line();Draw_function(document.getElementById('f').value);estimate()">  <label id="maxv" for="max">0</label>
 
                         <p>Wzór funckji</p>
                         <label for="f">f(x)=</label><input id="f"type="textbox"  onchange="    refresh();
     begin();
     draw_line();
     Draw_function(document.getElementById('f').value)">
-
+                        <br>
+                    <p>Gęstość</p>
+                    <input type="number" id="depth" min="1" max="1000" onchange="begin();draw_line();Draw_function(document.getElementById('f').value);estimate()">
                         <br><br>
                         <button class="button is-warning is-light is-outlined" onclick="Draw_function(document.getElementById('f').value)">Narysuj Funkcję</button>
                     </div>
                 </div>
-            <div class="column is-one-quarter">
-                <div id="params2" class="box">
-                    <p>Gęstość</p>
-                    <input type="number" id="depth" min="1" max="1000">
-                    <br><br>
-                    <button class="button is-warning is-light is-outlined" onclick="Add_to_list()">Dodaj Falę</button>
-                </div>
-            </div>
-            <div class="column is-one-quarter">
+            <div class="column is-one-half">
                 <div id="params2" class="box">
 
                     <p>Wyliczona wartość</p>
-                    <h1 id="estimated_value" class="title is-4">123</h1>
+                    <h1 id="estimated_value" class="title is-4">0</h1>
 
                     <p>Realna wartość</p>
-                    <h4 id="real_value" class="title is-4">123</h4>
+                    <h4 id="real_value" class="title is-4">0</h4>
 
-                    <p>Różnica procentowa</p>
-                    <h4 id="real_value" class="title is-4">123</h4>
+                    <p>Stosunek procentowy</p>
+                    <h4 id="diff" class="title is-4">0</h4>
                 </div>
             </div>
         </div>

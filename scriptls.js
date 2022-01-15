@@ -1,5 +1,5 @@
 
-setInterval(main, 18);
+setInterval(main, 1);
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 var time = Date.now();
@@ -13,13 +13,9 @@ var t=0;//czas
 
 function main()
 {
-
-    
-    reset();
     set_time();
     begin();
     draw_point();
-
 }
 function set_time()
 {
@@ -34,17 +30,13 @@ function begin()
     ctx.strokeRect(0,0,canvas.width, canvas.height);
     
 }
-function update_value(value,id)
-{
-  document.getElementById(id).innerHTML=value;  
-}
 function draw_point()
 {
 
     ctx.beginPath
-    ctx.lineWidth=3;
+    ctx.lineWidth=1;
     ctx.moveTo(count_x(t)+canvas.width/2,count_y(t)+canvas.height/2);
-    ctx.lineTo(count_x(t+0.1)+canvas.width/2,count_y(t+0.1)+canvas.height/2)
+    ctx.lineTo(count_x(t+0.01)+canvas.width/2,count_y(t+0.01)+canvas.height/2);
     ctx.fillStyle = "#000000"
     ctx.stroke();
 }
@@ -54,20 +46,16 @@ function count_x(t)
 }
 function count_y(t)
 {
-return parseFloat(A1*Math.sin(T1*t)*canvas.width/2);
+return parseFloat(A1*Math.sin(T1*t)*canvas.height/2);
 }
 function refresh()
 {
-    ctx.beginPath();
+ctx.beginPath();
 ctx.clearRect(0, 0, canvas.width, canvas.height);
-
- 
-}
-function reset()
-{
-    T = parseFloat(document.getElementById("T").value);
+T = parseFloat(document.getElementById("T").value);
 f = parseFloat(document.getElementById("f").value);
 A = parseFloat(document.getElementById("A").value);
 T1 = parseFloat(document.getElementById("T1").value);
-A1 = parseFloat(document.getElementById("A1").value);
+A1 = parseFloat(document.getElementById("A1").value); 
 }
+

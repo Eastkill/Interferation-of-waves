@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html lang="pl">
-    <head>
-<title>sin function</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-    </head>
+<head>
+    <title>sin function</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+</head>
 <body>
-    
     <div class="container">
-    
-<nav class="navbar" role="navigation" aria-label="main navigation">
-
+        <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-start">
       <a class="navbar-item has-text-centered" href="index.html">
         Wave Generator
@@ -17,39 +14,50 @@
       <a class="navbar-item has-text-centered" href="Lissajous.html">
         Lissajous Curve
       </a>
+        <a class="navbar-item has-text-centered" href="Integral.html">
+        Integral Visualisation
+      </a>
+        <a class="navbar-item has-text-centered" href="spyrograph.html">
+        Spyrograph
+      </a>
     </div>
 
-</nav>   
-        
-    <div class="columns">
-    <div class="column is-three-fifths" style="margin:auto;">
-    <canvas id="canvas" width=600, height=600></canvas>
-<script src="scriptls.js"></script>
-    </div>
+        </nav>   
+
+        <div class="columns">
+            <div class="column is-three-fifths" style="margin:auto;">
+                <canvas id="canvas" width=600, height=600></canvas>
+                <script src="scriptls.js"></script>
+            </div>
         </div>
         <div class="columns">
-    <div class="column">
-    <div id="params" class="box">
-    <p>Okres</p>
-    <input id="T"type="range" min="0.5" max="4" step="0.1" onchange="update_value(this.value,'Tt');refresh();">  <label id="Tt" for="T">2.4</label>
-        <p>Faza</p>
-    <input id="f"type="range" min="0" max="2" step="0.1"   onchange="update_value(this.value,'ft');refresh();">  <label id="ft" for="f">1</label>
-        <p>Amplituda</p>
-    <input id="A"type="range" min="0.05" max="1" step="0.05" value="0.5" onchange="update_value(this.value,'At');refresh();">  <label id="At" for="A">0.5</label>
-    </div>
+            <div class="column">
+                <div id="params" class="box">
+
+                    <p>Okres</p>
+                    <input id="T"type="number" min="0.1" value="1"  onchange=";refresh();">
+
+                    <p>Faza</p>
+                    <input id="f"type="number" min="0" max="2"  value="1"   onchange=";refresh();"> 
+
+                    <p>Amplituda</p>
+                    <input id="A"type="number"  max="1"  value="0.5" onchange=";refresh();">
+                </div>
             </div>
             <div class="column">
-    <div id="params2" class="box">
-    <p>Okres</p>
-    <input id="T1"type="range" min="0.5" max="4" step="0.1" onchange="update_value(this.value,'Tt1');refresh();">  <label id="Tt1" for="T">2.4</label>
-        <p>Amplituda</p>
-    <input id="A1"type="range" min="0.05" max="1" step="0.05" value="0.5" onchange="update_value(this.value,'At1');refresh();">  <label id="At1" for="A">0.5</label>
-    <div id="list" style="width: 50%; margin: auto">
-    <p id="time">Czas</p>
-    </div>
-    </div>
-    </div>
-    </div>
+                <div id="params2" class="box">
+
+                    <p>Okres</p>
+                    <input id="T1"type="number" min="0.1" value="0.5" onchange=";refresh();">
+
+                    <p>Amplituda</p>
+                    <input id="A1"type="number"  max="1"  value="0.5" onchange="refresh();">
+                    <div id="list" style="width: 50%; margin: auto">
+                        <p id="time">Czas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

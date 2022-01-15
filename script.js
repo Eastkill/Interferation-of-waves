@@ -1,5 +1,14 @@
 
 setInterval(main, 17);
+
+var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
+
+var time = Date.now();
+var depth = 1000;
+var z = canvas.width/depth;//kwant współrzędnej z
+var t=0;//czas
+
 class Wave {
   constructor(T,l,f,A,rgb) {
     this.T = T;
@@ -9,13 +18,6 @@ class Wave {
     this.rgb=rgb;
   }
 }
-var canvas = document.getElementById('canvas');
-var ctx = canvas.getContext('2d');
-var time = Date.now();
-var depth = 1000;
-var z = canvas.width/depth;//kwant współrzędnej z
-var id=0;
-var t=0;//czas
 var waves = [];
 var A_max=0;
 
@@ -43,6 +45,8 @@ function begin()
     ctx.strokeRect(0,0,canvas.width, canvas.height);
     
 }
+
+
 function line_drawing(i)
 {
     var sum=0;
@@ -52,11 +56,14 @@ function line_drawing(i)
         sum_ +=calculate_y(wave.T,wave.l,wave.f,wave.A,i+1);
         if(document.getElementById("checker").checked==true)
             {
-        ctx.strokeStyle = wave.rgb;
-        draw(wave.T,wave.l,wave.f,wave.A,wave.rgb,i);
+        var y = calculate_y(wave.T,wave.l,wave.f,wave.A,i);
+        var y_= calculate_y(wave.T,wave.l,wave.f,wave.A,i+1);
+
+        draw(y,y_,i,wave.rgb);
             }
     });
-    draw_summ(i,sum,sum_);
+    
+    draw(sum,sum_,i,"#000000");
 }
 function calculate_y(T,l,f,A,i)
 {
@@ -64,27 +71,51 @@ function calculate_y(T,l,f,A,i)
     var k = 2*Math.PI/l;//liczba falowa
     var n = 20;  
     var true_A = (canvas.height/2)*(A/(A_max));   
-    return(true_A * Math.sin(w*t - k*i*(A/A_max)/(depth/20) + f*Math.PI));
+    return(true_A * Math.sin(w*t - k*i*(A/A_max)/(depth/10) + f*Math.PI));
 }
-function draw(T,l,f,A,RGB,i) 
+function draw(y,y_,i,rgb) 
 {
   if (canvas.getContext) 
   {
         ctx.beginPath();
-        ctx.moveTo(z*i,calculate_y(T,l,f,A,i) + (canvas.height/2));
-        ctx.lineTo(z*(i+1),calculate_y(T,l,f,A,i+1) + (canvas.height/2))
+        ctx.strokeStyle = rgb;
+        ctx.moveTo(z*i,y + (canvas.height/2));
+        ctx.lineTo(z*(i+1),y_ + (canvas.height/2));
         ctx.stroke();
   }
 }
-function draw_summ(i, sum, sum_)
+function value_generate()
 {
-    ctx.strokeStyle="#000000";
     ctx.beginPath();
-    ctx.lineWidth=2;
-    ctx.moveTo(z*i,sum + (canvas.height/2));
-    ctx.lineTo(z*(i+1),sum_ + (canvas.height/2));
-    ctx.stroke(); 
+    ctx.fillStyle = "#000000";
+    
+    ctx.fillText(A_max.toFixed(2),0,10);//A sumy fal
+    ctx.fillText(-A_max.toFixed(2),0,canvas.height);//-A sumy fal
+    
+    ctx.moveTo(0,canvas.height/2);
+    ctx.lineTo(canvas.width,canvas.height/2);
+    ctx.fillText(0,0,canvas.height/2);//środek
+    ctx.stroke();
+    
+    waves.forEach(wave=>
+    {
+        ctx.beginPath();
+        ctx.strokeStyle=wave.rgb;
+        ctx.setLineDash([10, 10]);
+        ctx.fillText(wave.A,0,canvas.height/2-(wave.A/A_max)*canvas.height/2+10);
+        ctx.fillText(-wave.A,0,(wave.A/A_max)*canvas.height/2+canvas.height/2);
+        ctx.moveTo(0,canvas.height/2-(wave.A/A_max)*canvas.height/2);
+        ctx.lineTo(canvas.width,canvas.height/2-(wave.A/A_max)*canvas.height/2);
+        ctx.moveTo(0,(wave.A/A_max)*canvas.height/2+canvas.height/2);
+        ctx.lineTo(canvas.width,(wave.A/A_max)*canvas.height/2+canvas.height/2);
+        ctx.stroke();
+        ctx.setLineDash([]);
+    });
+
 }
+
+
+
 function Add_to_list()
 {
     let wave= new Wave
@@ -129,27 +160,5 @@ function update_value(value,id)
 {
   document.getElementById(id).innerHTML=value;  
 }
-function value_generate()
-{
-    ctx.fillStyle = "#000000";
-    ctx.fillText(A_max.toFixed(2),0,10);
-    ctx.fillText(-A_max.toFixed(2),0,canvas.height);
-    ctx.moveTo(0,canvas.height/2);
-    ctx.lineTo(canvas.width,canvas.height/2);
-    ctx.fillText(0,0,canvas.height/2);
-    ctx.stroke();
-    waves.forEach(wave=>
-    {
-        ctx.beginPath();
-        ctx.strokeStyle=wave.rgb;
-        ctx.fillText(wave.A,0,canvas.height/2-(wave.A/A_max)*canvas.height/2+10);
-        ctx.fillText(-wave.A,0,(wave.A/A_max)*canvas.height/2+canvas.height/2);
-        ctx.moveTo(0,canvas.height/2-(wave.A/A_max)*canvas.height/2);
-        ctx.lineTo(canvas.width,canvas.height/2-(wave.A/A_max)*canvas.height/2);
-        ctx.moveTo(0,(wave.A/A_max)*canvas.height/2+canvas.height/2);
-        ctx.lineTo(canvas.width,(wave.A/A_max)*canvas.height/2+canvas.height/2);
-        ctx.stroke();
-    });
 
-}
 
